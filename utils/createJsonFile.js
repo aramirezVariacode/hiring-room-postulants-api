@@ -1,11 +1,5 @@
-require("dotenv").config();
-
-
-const { getDataPostulants } = require("./functions/getDataPostulants");
-
-
-getDataPostulants();
-const guardarJSON = (data,fileName) => {
+const fs = require("fs");
+const createJsonFile = (data, fileName) => {
   const jsonContent = JSON.stringify(data, null, 2); // Convertir el objeto a JSON formateado
 
   fs.writeFile(`${fileName}.json`, jsonContent, "utf8", function (err) {
@@ -15,4 +9,8 @@ const guardarJSON = (data,fileName) => {
       console.log("Archivo JSON guardado con éxito!");
     }
   });
+};
+
+module.exports = {
+  createJsonFile,
 };
