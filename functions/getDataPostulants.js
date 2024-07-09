@@ -23,6 +23,18 @@ const getDataPostulants = async () => {
            });
          }
 
+
+
+
+         //TODO.... base de datos
+
+
+
+
+
+
+
+
          //guarda el total de postulantes
          createJsonFile(postulantes, "total-postulantes");
 
@@ -112,7 +124,9 @@ const getDataPostulants = async () => {
 
          /* 
  console.log(JSON.stringify(postulantes, null, 2)); */
-
+         console.log("total de Postulantes");
+         console.log(postulantes.length);
+         console.log("---------------------------------");
          console.log("Postulantes con linkedin");
          console.log(postulantesConLinkedin.length);
          console.log("---------------------------------");
