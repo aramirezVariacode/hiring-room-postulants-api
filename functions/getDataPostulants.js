@@ -28,6 +28,8 @@ const getDataPostulants = async () => {
 
          //TODO.... base de datos
 
+         //Recorrer Los adjuntos como Object 
+
 
 
 
