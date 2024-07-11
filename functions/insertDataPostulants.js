@@ -5,7 +5,7 @@ const {querySqlService} = require("../services/querySqlService");
      fs.readFile(
        "./jsonFilesData/total-postulantes.json",
        "utf-8",
-       (err, data) => {
+      async (err, data) => {
          if (err) {
            console.log(err);
            return;
@@ -238,8 +238,184 @@ const {querySqlService} = require("../services/querySqlService");
     ],
     reportes: null,
     adjuntos: {}
+  },
+  
+},
+{
+  postulant: {
+    id: "662930da77ca2646a65e67f5",
+    nombre: "Vita",
+    apellido: "Maksymyshyn",
+    email: null,
+    fechaNacimiento: null,
+    telefonoFijo: null,
+    telefonoCelular: null,
+    dni: null,
+    cuil: null,
+    genero: null,
+    fotoPerfil: "https://variacode.hiringroom.com/data/accounts/variacode/postulants/662930da77ca2646a65e67f5.webp",
+    presentacionPostulante: null,
+    redesSociales: {
+      linkedin: "https://linkedin.com/in/vita-maksymyshyn-9b99a8151/",
+      facebook: null,
+      twitter: null,
+      googlePlus: null,
+      skype: null,
+      website: null
+    },
+    direccion: {
+      pais: "Ucrania",
+      provincia: null,
+      ciudad: null,
+      direccion: null,
+      paisId: null,
+      provinciaId: null,
+      ciudadId: null
+    },
+    nacionalidad: null,
+    experienciasLaborales: [
+      {
+        empresa: "Newfold Digital Ukraine · Jornada completa",
+        puesto: "Account Manager",
+        mesDesde: "10",
+        añoDesde: "2020",
+        mesHasta: null,
+        añoHasta: null,
+        trabajoActual: true,
+        pais: null,
+        area: null,
+        subArea: null,
+        industria: null,
+        seniority: null,
+        descripcion: null
+      },
+      {
+        empresa: "Wrike",
+        puesto: "Renewals Manager",
+        mesDesde: "10",
+        añoDesde: "2018",
+        mesHasta: "3",
+        añoHasta: "2020",
+        trabajoActual: null,
+        pais: null,
+        area: null,
+        subArea: null,
+        industria: null,
+        seniority: null,
+        descripcion: null
+      },
+      {
+        empresa: "Tomermedia",
+        puesto: "Customer Success Manager",
+        mesDesde: "12",
+        añoDesde: "2017",
+        mesHasta: "9",
+        añoHasta: "2018",
+        trabajoActual: null,
+        pais: null,
+        area: null,
+        subArea: null,
+        industria: null,
+        seniority: null,
+        descripcion: null
+      },
+      {
+        empresa: "Helpware",
+        puesto: "Manager Account",
+        mesDesde: "3",
+        añoDesde: "2016",
+        mesHasta: "9",
+        añoHasta: "2017",
+        trabajoActual: null,
+        pais: null,
+        area: null,
+        subArea: null,
+        industria: null,
+        seniority: null,
+        descripcion: null
+      },
+      {
+        empresa: "Bayer",
+        puesto: "Administrative Assistant",
+        mesDesde: "4",
+        añoDesde: "2014",
+        mesHasta: "3",
+        añoHasta: "2016",
+        trabajoActual: null,
+        pais: null,
+        area: null,
+        subArea: null,
+        industria: null,
+        seniority: null,
+        descripcion: null
+      }
+    ],
+    estudios: [
+      {
+        institucion: null,
+        titulo: "Master's degree, Accounting and Auditing",
+        mesDesde: null,
+        añoDesde: null,
+        mesHasta: null,
+        añoHasta: null,
+        estudioActual: null,
+        pais: null,
+        area: null,
+        nivel: null,
+        estado: null,
+        descripcion: null
+      }
+    ],
+    conocimientos: [
+      {
+        tipo: "Personalizado",
+        nombre: "Linkedin Skill",
+        nivel: null,
+        calificacion: null,
+        descripcion: "Business Case Preparation"
+      },
+      {
+        tipo: "Personalizado",
+        nombre: "Linkedin Skill",
+        nivel: null,
+        calificacion: null,
+        descripcion: "Data Analytics"
+      }
+    ],
+    referencias: null,
+    fechaPostulacion: "24-04-2024",
+    fechaAplicacion: null,
+    fuente: "added",
+    legajo: "no specify",
+    salarioPretendido: null,
+    vacanteId: "66040f7dd7a84e772b7b05ec",
+    etapa: "Wade inter",
+    vacanteNombre: "Renewals Manager/Contractor - Portugal",
+    disponibilidadHoraria: "no specify",
+    disponibilidadRelocacion: false,
+    calificacion: null,
+    comentarios: null,
+    rechazado: [
+      {
+        vacanteId: "66040f7dd7a84e772b7b05ec",
+        razon: "Por cierre de vacante",
+        fechaRechazo: "08-05-2024"
+      }
+    ],
+    tags: [
+      {
+        nombre: "ANI",
+        creadoPor: "anigle",
+        fechaCreacion: "24-04-2024"
+      }
+    ],
+    reportes: null,
+    adjuntos: {
+      Vita: "https://variacode.hiringroom.com/app/postulant/downloadCV/662930da77ca2646a65e67f5/bda43c08c2ee8f95208ae71af26b49a9.pdf"
+    }
   }
 }
+
 
         ]
 
@@ -281,7 +457,7 @@ const {querySqlService} = require("../services/querySqlService");
               nombre,
               apellido,
               email,
-              fecha_nacimiento : fechaNacimiento,
+              fecha_nacimiento : formatDateString(fechaNacimiento),
               telefono_fijo : telefonoFijo,
               telefono_celular : telefonoCelular,
               dni,
@@ -290,8 +466,8 @@ const {querySqlService} = require("../services/querySqlService");
               foto_perfil : fotoPerfil,
               presentacion_postulante : presentacionPostulante,
               nacionalidad,
-              fecha_postulacion : fechaPostulacion,
-              fecha_aplicacion : fechaAplicacion,
+              fecha_postulacion : formatDateString(fechaPostulacion),
+              fecha_aplicacion : formatDateString(fechaAplicacion),
               fuente,
               legajo,
               salario_pretendido : salarioPretendido,
@@ -303,7 +479,7 @@ const {querySqlService} = require("../services/querySqlService");
               calificacion,
             };
             
-           querySqlService.insert("postulant", postulantData);
+          await querySqlService.insert("postulant", postulantData);
            console.log("registros")
         
          }
@@ -313,8 +489,17 @@ const {querySqlService} = require("../services/querySqlService");
    }
 
  
-
-
+/* function formatDateString(dateString) {
+  if (!dateString) return null;
+  const [day, month, year] = dateString.split("-");
+  return `${year}-${month}-${day}`;
+}
+ */
+const formatDateString = (dateString) =>{
+  if(!dateString) return null;
+  const [day, month, year] = dateString.split("-");
+  return `${year}-${month}-${day}`
+}
 
 module.exports = {
     readJsonFile
