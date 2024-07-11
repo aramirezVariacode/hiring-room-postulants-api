@@ -277,8 +277,8 @@ const {querySqlService} = require("../services/querySqlService");
       {
         empresa: "Newfold Digital Ukraine · Jornada completa",
         puesto: "Account Manager",
-        mesDesde: "10",
-        añoDesde: "2020",
+        mesDesde: 10,
+        añoDesde: 2020,
         mesHasta: null,
         añoHasta: null,
         trabajoActual: true,
@@ -292,10 +292,10 @@ const {querySqlService} = require("../services/querySqlService");
       {
         empresa: "Wrike",
         puesto: "Renewals Manager",
-        mesDesde: "10",
-        añoDesde: "2018",
-        mesHasta: "3",
-        añoHasta: "2020",
+        mesDesde: 10,
+        añoDesde: 2018,
+        mesHasta: 3,
+        añoHasta: 2020,
         trabajoActual: null,
         pais: null,
         area: null,
@@ -307,10 +307,10 @@ const {querySqlService} = require("../services/querySqlService");
       {
         empresa: "Tomermedia",
         puesto: "Customer Success Manager",
-        mesDesde: "12",
-        añoDesde: "2017",
-        mesHasta: "9",
-        añoHasta: "2018",
+        mesDesde: 12,
+        añoDesde: 2017,
+        mesHasta: 9,
+        añoHasta: 2018,
         trabajoActual: null,
         pais: null,
         area: null,
@@ -322,10 +322,10 @@ const {querySqlService} = require("../services/querySqlService");
       {
         empresa: "Helpware",
         puesto: "Manager Account",
-        mesDesde: "3",
-        añoDesde: "2016",
-        mesHasta: "9",
-        añoHasta: "2017",
+        mesDesde: 3,
+        añoDesde: 2016,
+        mesHasta: 9,
+        añoHasta: 2017,
         trabajoActual: null,
         pais: null,
         area: null,
@@ -337,10 +337,10 @@ const {querySqlService} = require("../services/querySqlService");
       {
         empresa: "Bayer",
         puesto: "Administrative Assistant",
-        mesDesde: "4",
-        añoDesde: "2014",
-        mesHasta: "3",
-        añoHasta: "2016",
+        mesDesde: 4,
+        añoDesde: 2014,
+        mesHasta: 3,
+        añoHasta: 2016,
         trabajoActual: null,
         pais: null,
         area: null,
@@ -420,69 +420,184 @@ const {querySqlService} = require("../services/querySqlService");
         ]
 
          for (const item of postulants) {
+           //TODO: implenetar las funciones para insertar data a la base de datos
 
-            //TODO: implenetar las funciones para insertar data a la base de datos
+           //insertar postulantes
 
-            //insertar postulantes
+           const {
+             id,
+             nombre,
+             apellido,
+             email,
+             fechaNacimiento,
+             telefonoFijo,
+             telefonoCelular,
+             dni,
+             cuil,
+             genero,
+             fotoPerfil,
+             presentacionPostulante,
+             nacionalidad,
+             fechaPostulacion,
+             fechaAplicacion,
+             fuente,
+             legajo,
+             salarioPretendido,
+             vacanteId,
+             etapa,
+             vacanteNombre,
+             disponibilidadHoraria,
+             disponibilidadRelocacion,
+             calificacion,
+           } = item.postulant;
 
-            const {
-              id,
-              nombre,
-              apellido,
-              email,
-              fechaNacimiento,
-              telefonoFijo,
-              telefonoCelular,
-              dni,
-              cuil,
-              genero,
-              fotoPerfil,
-              presentacionPostulante,
-              nacionalidad,
-              fechaPostulacion,
-              fechaAplicacion,
-              fuente,
-              legajo,
-              salarioPretendido,
-              vacanteId,
-              etapa,
-              vacanteNombre,
-              disponibilidadHoraria,
-              disponibilidadRelocacion,
-              calificacion,
-            } = item.postulant;
+           const postulantData = {
+             id,
+             nombre,
+             apellido,
+             email,
+             fecha_nacimiento: formatDateString(fechaNacimiento),
+             telefono_fijo: telefonoFijo,
+             telefono_celular: telefonoCelular,
+             dni,
+             cuil,
+             genero,
+             foto_perfil: fotoPerfil,
+             presentacion_postulante: presentacionPostulante,
+             nacionalidad,
+             fecha_postulacion: formatDateString(fechaPostulacion),
+             fecha_aplicacion: formatDateString(fechaAplicacion),
+             fuente,
+             legajo,
+             salario_pretendido: salarioPretendido,
+             vacante_id: vacanteId,
+             etapa,
+             vacante_nombre: vacanteNombre,
+             disponibilidad_horaria: disponibilidadHoraria,
+             disponibilidad_relocacion: disponibilidadRelocacion,
+             calificacion,
+           };
 
-            const postulantData = {
-              id,
-              nombre,
-              apellido,
-              email,
-              fecha_nacimiento : formatDateString(fechaNacimiento),
-              telefono_fijo : telefonoFijo,
-              telefono_celular : telefonoCelular,
-              dni,
-              cuil,
-              genero,
-              foto_perfil : fotoPerfil,
-              presentacion_postulante : presentacionPostulante,
-              nacionalidad,
-              fecha_postulacion : formatDateString(fechaPostulacion),
-              fecha_aplicacion : formatDateString(fechaAplicacion),
-              fuente,
-              legajo,
-              salario_pretendido : salarioPretendido,
-              vacante_id : vacanteId,
-              etapa,
-              vacante_nombre : vacanteNombre,
-              disponibilidad_horaria : disponibilidadHoraria,
-              disponibilidad_relocacion : disponibilidadRelocacion,
-              calificacion,
-            };
-            
-          await querySqlService.insert("postulant", postulantData);
-           console.log("registros")
-        
+           await querySqlService.insert("postulant", postulantData);
+
+           //////////////////////////////// insertar en tabla address
+
+           const {
+             pais,
+             provincia,
+             ciudad,
+             direccion,
+             paisId,
+             provinciaId,
+             ciudadId,
+           } = item.postulant.direccion;
+
+           const addressData = {
+             postulant_id: id,
+             pais,
+             provincia,
+             ciudad,
+             direccion,
+             pais_id: paisId,
+             provincia_id: provinciaId,
+             ciudad_id: ciudadId,
+           };
+
+           await querySqlService.insert("address", addressData);
+
+           //////////////////////// insertar en tabla social_media
+
+           const { linkedin, facebook, twitter, googlePlus, skype, website } =
+             item.postulant.redesSociales;
+
+           const socialMediaData = {
+             postulant_id: id,
+             linkedin,
+             facebook,
+             twitter,
+             google_plus: googlePlus,
+             skype,
+             website,
+           };
+
+           await querySqlService.insert("social_media", socialMediaData);
+
+           //////////////////////////////   insertar en tabla experience
+
+           for (const itemExperience of item.postulant.experienciasLaborales) {
+             const {
+               empresa,
+               puesto,
+               mesDesde,
+               añoDesde,
+               mesHasta,
+               añoHasta,
+               trabajoActual,
+               pais: paisExperience,
+               area,
+               subArea,
+               industria,
+               seniority,
+               descripcion,
+             } = itemExperience;
+
+             const experienceData = {
+               postulant_id: id,
+               empresa,
+               puesto,
+               mes_desde: mesDesde,
+               ano_desde: añoDesde,
+               mes_hasta: mesHasta,
+               ano_hasta: añoHasta,
+               trabajo_actual: trabajoActual,
+               pais: paisExperience,
+               area,
+               sub_area: subArea,
+               industria,
+               seniority,
+               descripcion,
+             };
+             await querySqlService.insert("experience", experienceData);
+           }
+
+           //////////////////////////////   insertar en tabla education
+
+           for (const itemEducation of item.postulant.estudios) {
+             const {
+               institucion,
+               titulo,
+               mesDesde : mesDesdeEducation,
+               añoDesde : añoDesdeEducation,
+               mesHasta : mesHastaEducation,
+               añoHasta : añoHastaEducation,
+               estudioActual,
+               pais,
+               area,
+               nivel,
+               estado,
+               descripcion,
+             } = itemEducation;
+
+             const educationData = {
+               postulant_id: id,
+               institucion,
+               titulo,
+               mes_desde: mesDesdeEducation,
+               ano_desde: añoDesdeEducation,
+               mes_hasta: mesHastaEducation,
+               ano_hasta: añoHastaEducation,
+               estudio_actual: estudioActual,
+               pais,
+               area,
+               nivel,
+               estado,
+               descripcion,
+             };
+             await querySqlService.insert("education", educationData);
+           }
          }
+
+         console.log("realizado")
        }
      );
 
