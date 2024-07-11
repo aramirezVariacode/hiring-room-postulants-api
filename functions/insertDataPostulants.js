@@ -613,7 +613,6 @@ const readJsonFile = () => {
 
         await querySqlService.insert("social_media", socialMediaData);
 
-
         //////////////////////////////   insertar en tabla experience
 
         if (item.postulant.experienciasLaborales !== null) {
@@ -654,88 +653,112 @@ const readJsonFile = () => {
           }
         }
 
-
-
         //////////////////////////////   insertar en tabla education
 
-        if(item.postulant.estudios !== null){
-                for (const itemEducation of item.postulant.estudios) {
-                  const {
-                    institucion,
-                    titulo,
-                    mesDesde: mesDesdeEducation,
-                    añoDesde: añoDesdeEducation,
-                    mesHasta: mesHastaEducation,
-                    añoHasta: añoHastaEducation,
-                    estudioActual,
-                    pais,
-                    area,
-                    nivel,
-                    estado,
-                    descripcion,
-                  } = itemEducation;
+        if (item.postulant.estudios !== null) {
+          for (const itemEducation of item.postulant.estudios) {
+            const {
+              institucion,
+              titulo,
+              mesDesde: mesDesdeEducation,
+              añoDesde: añoDesdeEducation,
+              mesHasta: mesHastaEducation,
+              añoHasta: añoHastaEducation,
+              estudioActual,
+              pais,
+              area,
+              nivel,
+              estado,
+              descripcion,
+            } = itemEducation;
 
-                  const educationData = {
-                    postulant_id: id,
-                    institucion,
-                    titulo,
-                    mes_desde: mesDesdeEducation,
-                    ano_desde: añoDesdeEducation,
-                    mes_hasta: mesHastaEducation,
-                    ano_hasta: añoHastaEducation,
-                    estudio_actual: estudioActual,
-                    pais,
-                    area,
-                    nivel,
-                    estado,
-                    descripcion,
-                  };
-                  await querySqlService.insert("education", educationData);
-                }
-
+            const educationData = {
+              postulant_id: id,
+              institucion,
+              titulo,
+              mes_desde: mesDesdeEducation,
+              ano_desde: añoDesdeEducation,
+              mes_hasta: mesHastaEducation,
+              ano_hasta: añoHastaEducation,
+              estudio_actual: estudioActual,
+              pais,
+              area,
+              nivel,
+              estado,
+              descripcion,
+            };
+            await querySqlService.insert("education", educationData);
+          }
         }
         //////////////////////////////   insertar en tabla skill
 
-       if(item.postulant.conocimientos !== null){
+        if (item.postulant.conocimientos !== null) {
+          for (const itemSkill of item.postulant.conocimientos) {
+            const {
+              tipo,
+              nombre,
+              nivel: nivelSkill,
+              calificacion,
+              descripcion: descripcionSkill,
+            } = itemSkill;
 
-         for (const itemSkill of item.postulant.conocimientos) {
-          const {
-            tipo,
-            nombre,
-            nivel: nivelSkill,
-            calificacion,
-            descripcion: descripcionSkill,
-          } = itemSkill;
+            const conocimientoData = {
+              postulant_id: id,
+              tipo,
+              nombre,
+              nivel: nivelSkill,
+              calificacion,
+              descripcion: descripcionSkill,
+            };
+            await querySqlService.insert("skill", conocimientoData);
+          }
+        }
 
-          const conocimientoData = {
-            postulant_id: id,
-            tipo,
-            nombre,
-            nivel: nivelSkill,
-            calificacion,
-            descripcion: descripcionSkill,
-          };
-          await querySqlService.insert("skill", conocimientoData);
+        ///////////////// insertar tabla comentarios
+
+        if (item.postulant.comentarios !== null) {
+          for (const itemComment of item.postulant.comentarios) {
+            const { vacante, usuario, comentario, fecha } = itemComment;
+
+            const commentData = {
+              postulant_id: id,
+              vacante,
+              usuario,
+              comentario,
+              fecha: formatDateString(fecha),
+            };
+            await querySqlService.insert("comment", commentData);
+          }
+        }
+
+        ///////////////// insertar tabla rejection
+
+        if (item.postulant.rechazado !== null) {
+          
+         if(Array.isArray(item.postulant.rechazado)){
+
+           for (const itemReejction of item.postulant.rechazado) {
+             const { vacanteId, razon, fechaRechazo } = itemReejction;
+
+             const rejectionData = {
+               postulant_id: id,
+               vacante_id: vacanteId,
+               razon,
+               fecha_rechazo: formatDateString(fechaRechazo),
+             };
+             await querySqlService.insert("rejection", rejectionData);
+           }
+         }else{
+           const rejectionData = {
+             postulant_id: id,
+             vacante_id: null,
+             razon: item.postulant.rechazado,
+             fecha_rechazo: null,
+           };
+            await querySqlService.insert("rejection", rejectionData);
+         }
         }
       }
-
-      ///////////////// insertar tabla comentarios
-
-      if(item.postulant.comentarios !== null){
-         for (const itemComment of item.postulant.comentarios) {
-           const {vacante, usuario, comentario, fecha } = itemComment;
-
-           const commentData = {
-             postulant_id: id,
-             vacante,
-             usuario,
-             comentario,
-             fecha: formatDateString(fecha),
-           };
-           await querySqlService.insert("comment", commentData);
-         }
-      }
-    }
 
       console.log("realizado");
     }
