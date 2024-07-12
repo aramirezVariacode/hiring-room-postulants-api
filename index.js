@@ -7,9 +7,14 @@ const { readJsonFile } = require ("./functions/insertDataPostulants");
     // search username input
 
 
-/* getDataPostulants() */
+//obtener los postulantes
+/*  getDataPostulants()  */
 
+
+ readJsonFile();
+ 
+
+
+//pupeteer
 /* getCvHiringRoom();
  */
-
-readJsonFile();

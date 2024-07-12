@@ -9,7 +9,11 @@ const getDataPostulants = async () => {
     token = data.token;
     if(data.token){
          let postulantes = [];
-         for (let index = 0; index < 88; index++) {
+
+        const response = await getPostulants(0,token);
+      
+
+         for (let index = 0; index < response.data.totalPaginas; index++) {
            console.log(`Cargando pagina ${index}`);
            await getPostulants(index,token).then(async ({ data }) => {
              const ids = data.curriculums.map((item) => item.id);
@@ -17,7 +21,7 @@ const getDataPostulants = async () => {
              for (const id of ids) {
                let postulantData = await getPostulantById(id,token).then(
                  ({ data }) => data
-               );
+               ).catch((err) => console.log(err));
                postulantes.push(postulantData);
              }
            });

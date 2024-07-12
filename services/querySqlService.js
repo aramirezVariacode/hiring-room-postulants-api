@@ -14,7 +14,7 @@ const querySqlService = {
     });
     const query = `INSERT INTO ${table} (${Object.keys(
       data
-    ).join()}) values (${index.join()});`;
+    ).join()}) values (${index.join()}) ON CONFLICT (id) DO NOTHING;;`;
     await pool.query(query, Object.values(data));
   },
   update: async (table, data, condition = "") => {

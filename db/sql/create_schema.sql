@@ -1,26 +1,26 @@
 CREATE TABLE postulant (
     id VARCHAR(24) PRIMARY KEY,
-    nombre VARCHAR(50),
-    apellido VARCHAR(50),
-    email VARCHAR(100),
+    nombre TEXT,
+    apellido TEXT,
+    email TEXT,
     fecha_nacimiento DATE,
-    telefono_fijo VARCHAR(20),
-    telefono_celular VARCHAR(20),
-    dni VARCHAR(20),
-    cuil VARCHAR(20),
-    genero VARCHAR(20),
-    foto_perfil VARCHAR(255),
+    telefono_fijo TEXT,
+    telefono_celular TEXT,
+    dni TEXT,
+    cuil TEXT,
+    genero TEXT,
+    foto_perfil TEXT,
     presentacion_postulante TEXT,
-    nacionalidad VARCHAR(50),
+    nacionalidad TEXT,
     fecha_postulacion DATE,
     fecha_aplicacion TIMESTAMP,
-    fuente VARCHAR(50),
-    legajo VARCHAR(50),
+    fuente TEXT,
+    legajo TEXT,
     salario_pretendido DECIMAL,
-    vacante_id VARCHAR(50),
-    etapa VARCHAR(50),
-    vacante_nombre VARCHAR(100),
-    disponibilidad_horaria VARCHAR(50),
+    vacante_id TEXT,
+    etapa TEXT,
+    vacante_nombre TEXT,
+    disponibilidad_horaria TEXT,
     disponibilidad_relocacion BOOLEAN,
     calificacion DECIMAL
 );
@@ -28,9 +28,9 @@ CREATE TABLE postulant (
 CREATE TABLE address (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    pais VARCHAR(50),
-    provincia VARCHAR(50),
-    ciudad VARCHAR(50),
+    pais TEXT,
+    provincia TEXT,
+    ciudad TEXT,
     direccion VARCHAR(255),
     pais_id INT,
     provincia_id INT,
@@ -40,64 +40,64 @@ CREATE TABLE address (
 CREATE TABLE social_media (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    linkedin VARCHAR(255),
-    facebook VARCHAR(255),
-    twitter VARCHAR(255),
-    google_plus VARCHAR(255),
-    skype VARCHAR(255),
-    website VARCHAR(255)
+    linkedin TEXT,
+    facebook TEXT,
+    twitter TEXT,
+    google_plus TEXT,
+    skype TEXT,
+    website TEXT
 );
 
 CREATE TABLE experience (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    empresa VARCHAR(100),
-    puesto VARCHAR(100),
+    empresa TEXT,
+    puesto TEXT,
     mes_desde INT,
     ano_desde INT,
     mes_hasta INT,
     ano_hasta INT,
     trabajo_actual BOOLEAN,
-    pais VARCHAR(50),
-    area VARCHAR(100),
-    sub_area VARCHAR(100),
-    industria VARCHAR(100),
-    seniority VARCHAR(50),
+    pais TEXT,
+    area TEXT,
+    sub_area TEXT,
+    industria TEXT,
+    seniority TEXT,
     descripcion TEXT
 );
 
 CREATE TABLE education (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    institucion VARCHAR(100),
-    titulo VARCHAR(100),
+    institucion TEXT,
+    titulo TEXT,
     mes_desde INT,
     ano_desde INT,
     mes_hasta INT,
     ano_hasta INT,
     estudio_actual BOOLEAN,
-    pais VARCHAR(50),
-    area VARCHAR(100),
-    nivel VARCHAR(50),
-    estado VARCHAR(50),
+    pais TEXT,
+    area TEXT,
+    nivel TEXT,
+    estado TEXT,
     descripcion TEXT
 );
 
 CREATE TABLE skill (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    tipo VARCHAR(50),
-    nombre VARCHAR(100),
-    nivel VARCHAR(50),
-    calificacion VARCHAR(50),
+    tipo TEXT,
+    nombre TEXT,
+    nivel TEXT,
+    calificacion TEXT,
     descripcion TEXT
 );
 
 CREATE TABLE comment (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    vacante VARCHAR(100),
-    usuario VARCHAR(50),
+    vacante TEXT,
+    usuario TEXT,
     comentario TEXT,
     fecha DATE
 );
@@ -105,7 +105,7 @@ CREATE TABLE comment (
 CREATE TABLE rejection (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    vacante_id VARCHAR(50),
+    vacante_id TEXT,
     razon TEXT,
     fecha_rechazo DATE
 );
@@ -113,8 +113,8 @@ CREATE TABLE rejection (
 CREATE TABLE tag (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    nombre VARCHAR(50),
-    creado_por VARCHAR(50),
+    nombre TEXT,
+    creado_por TEXT,
     fecha_creacion DATE
 );
 
@@ -122,6 +122,6 @@ CREATE TABLE tag (
 CREATE TABLE attachment (
     id SERIAL PRIMARY KEY,
     postulant_id VARCHAR(24) REFERENCES postulant(id),
-    tipo VARCHAR(50),
-    url VARCHAR(255)
+    tipo TEXT,
+    url TEXT
 );

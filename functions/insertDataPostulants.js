@@ -2,7 +2,7 @@ const fs = require("fs");
 const postulantService = require("../services/postulantService");
 const { querySqlService } = require("../services/querySqlService");
 
-const postulants = [
+/* const postulants = [
   {
     postulant: {
       id: "663bf750124273af7a4d186f",
@@ -496,7 +496,7 @@ const postulants = [
       adjuntos: {},
     },
   },
-];
+]; */
 
 const readJsonFile = () => {
   fs.readFile(
@@ -508,7 +508,7 @@ const readJsonFile = () => {
         return;
       }
 
-      /*  const postulants = JSON.parse(data); */
+      const postulants = JSON.parse(data);
 
       for (const item of postulants) {
         //TODO: implenetar las funciones para insertar data a la base de datos
@@ -620,7 +620,7 @@ const readJsonFile = () => {
             const {
               empresa,
               puesto,
-              mesDesde,
+              mesDesde, 
               añoDesde,
               mesHasta,
               añoHasta,
@@ -637,17 +637,17 @@ const readJsonFile = () => {
               postulant_id: id,
               empresa,
               puesto,
-              mes_desde: mesDesde,
-              ano_desde: añoDesde,
-              mes_hasta: mesHasta,
-              ano_hasta: añoHasta,
+              mes_desde: removeNonNumber(mesDesde),
+              ano_desde: removeNonNumber(añoDesde),
+              mes_hasta: removeNonNumber(mesHasta),
+              ano_hasta: removeNonNumber(añoHasta),
               trabajo_actual: trabajoActual,
               pais: paisExperience,
               area,
               sub_area: subArea,
               industria,
               seniority,
-              descripcion,
+              descripcion: removeNullCharacters(descripcion),
             };
             await querySqlService.insert("experience", experienceData);
           }
@@ -734,30 +734,64 @@ const readJsonFile = () => {
         ///////////////// insertar tabla rejection
 
         if (item.postulant.rechazado !== null) {
-          
-         if(Array.isArray(item.postulant.rechazado)){
+          if (Array.isArray(item.postulant.rechazado)) {
+            for (const itemReejction of item.postulant.rechazado) {
+              const { vacanteId, razon, fechaRechazo } = itemReejction;
 
-           for (const itemReejction of item.postulant.rechazado) {
-             const { vacanteId, razon, fechaRechazo } = itemReejction;
-
-             const rejectionData = {
-               postulant_id: id,
-               vacante_id: vacanteId,
-               razon,
-               fecha_rechazo: formatDateString(fechaRechazo),
-             };
-             await querySqlService.insert("rejection", rejectionData);
-           }
-         }else{
-           const rejectionData = {
-             postulant_id: id,
-             vacante_id: null,
-             razon: item.postulant.rechazado,
-             fecha_rechazo: null,
-           };
+              const rejectionData = {
+                postulant_id: id,
+                vacante_id: vacanteId,
+                razon,
+                fecha_rechazo: formatDateString(fechaRechazo),
+              };
+              await querySqlService.insert("rejection", rejectionData);
+            }
+          } else {
+            const rejectionData = {
+              postulant_id: id,
+              vacante_id: null,
+              razon: item.postulant.rechazado,
+              fecha_rechazo: null,
+            };
             await querySqlService.insert("rejection", rejectionData);
-         }
+          }
         }
+
+        ///////////////// insertar tabla tags
+
+        if (item.postulant.tags !== null) {
+          for (const itemTag of item.postulant.tags) {
+            const { nombre, creadoPor, fechaCreacion } = itemTag;
+
+            const tagData = {
+              postulant_id: id,
+              nombre,
+              creado_por: creadoPor,
+              fecha_creacion: formatDateString(fechaCreacion),
+            };
+            await querySqlService.insert("tag", tagData);
+          }
+        }
+
+        ///////////////// insertar tabla attachment
+
+        if (
+          item.postulant.adjuntos !== null &&
+          Object.keys(item.postulant.adjuntos).length > 0
+        ) {
+          Object.entries(item.postulant.adjuntos).forEach(
+            async ([key, value]) => {
+              const adjuntosData = {
+                postulant_id: id,
+                tipo: key,
+                url: value,
+              };
+              await querySqlService.insert("attachment", adjuntosData);
+            }
+          );
+        }
+
+        console.log(JSON.stringify(item.postulant, null, 2));
       }
 
       console.log("realizado");
@@ -772,9 +806,23 @@ const readJsonFile = () => {
 }
  */
 const formatDateString = (dateString) => {
-  if (!dateString) return null;
+  if (!dateString || typeof dateString !== "string") return null;
   const [day, month, year] = dateString.split("-");
   return `${year}-${month}-${day}`;
+};
+
+const removeNullCharacters = (input) => {
+  if (input === null || input === undefined) {
+    return input;
+  }
+  return input.replace(/\u0000/g, "");
+};
+
+const removeNonNumber = (input) => {
+  if (input === null || typeof input !== "number") {
+    return null;
+  }
+  return input;
 };
 
 module.exports = {
