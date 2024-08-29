@@ -498,7 +498,7 @@ const { querySqlService } = require("../services/querySqlService");
   },
 ]; */
 
-const readJsonFile = () => {
+const readJsonFileAndInsertData = () => {
   fs.readFile(
     "./jsonFilesData/total-postulantes.json",
     "utf-8",
@@ -826,5 +826,5 @@ const removeNonNumber = (input) => {
 };
 
 module.exports = {
-  readJsonFile,
+  readJsonFileAndInsertData,
 };

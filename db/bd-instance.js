@@ -2,16 +2,16 @@ const { Pool } = require('pg');
 
 //MODIFICAR DATOS PARA CONEXION DE DB
 const config = {
-   user: process.env.PGUSER,
-   host: process.env.PGHOST,
-   database: process.env.PGDATABASE,
-   password: process.env.PGPASSWORD,
-   port: process.env.PGPORT,
-   max: process.env.PGMAXDB,
-   min: process.env.PGMINDB,
-   idleTimeoutMillis: process.env.PGTIMEOUTDB,
-   connectionTimeoutMillis: process.env.PGCONNTIMEOUTDB,
-    ssl: false
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
+  max: process.env.PGMAXDB,
+  min: process.env.PGMINDB,
+  idleTimeoutMillis: process.env.PGTIMEOUTDB,
+  connectionTimeoutMillis: process.env.PGCONNTIMEOUTDB,
+  ssl: false
 };
 
 /* if (process.env.PGSSL == "true") {
